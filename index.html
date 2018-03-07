@@ -1,0 +1,44 @@
+<script type="text/javascript" src="codebird.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script type="text/javascript">
+  var cb = new Codebird;
+  cb.setConsumerKey("...", "...");
+  cb.setToken("...", "...");
+
+  var params = {
+    cursor: -1,
+    count: 20,
+    skip_status: true
+  };
+</script>
+
+<body>
+
+  <div id="rootDiv"></div>
+
+</body>
+
+
+<script>
+  cb.__call(
+    "friends_list",
+    function (reply, rate, err) {
+      console.log(reply);
+      if (reply.httpstatus == '200') {
+
+        $.each(reply.users, function (index, value) {
+          console.log(value)
+          $("#rootDiv").append('<p>' + (index + 1) + ' : ' + 'username :' + value.screen_name + '</p>');
+        });
+
+        d3.selectAll("p").style("color: black;  font-weight: bold;", function (d, i) {
+          return i % 2 ? "#fff" : "#eee";
+        });
+      }
+
+    }
+  );
+</script>
